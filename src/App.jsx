@@ -1,7 +1,7 @@
 //Imports
-import React, { useState, useEffect} from 'react';
+import { useState, useEffect} from 'react';
 import { firestore } from './firebase';
-import { collection, addDoc, getDocs , doc , deleteDoc , updateDoc} from "firebase/firestore";
+import { collection, addDoc, getDocs, doc, deleteDoc, updateDoc} from "firebase/firestore";
 
 //Expense Tracker
 export default function ExpenseTracker() {
@@ -9,7 +9,7 @@ export default function ExpenseTracker() {
   const [description, setDescription] = useState('');
   const [amount, setAmount] = useState('');
   const [isEditing, setIsEditing] = useState(false);
-  const [currentExpenseId, setCurrentExpenseId] = useState(null);
+  const [currentExpenseId, setCurrentExpenseId] =useState(null);
 
   const startEditingExpense = (expense) => {
     setDescription(expense.description);
@@ -17,7 +17,7 @@ export default function ExpenseTracker() {
     setIsEditing(true);
     setCurrentExpenseId(expense.id);
   };
-  
+
   // Fetching expenses from Firestore
   useEffect(() => {
     const fetchExpenses = async () => {
@@ -57,7 +57,7 @@ export default function ExpenseTracker() {
   const deleteExpense = async (id) => {
     const expenseId = String(id);
     const expenseDocRef = doc(firestore, "expenses", expenseId);
-  
+
     await deleteDoc(expenseDocRef)
       .then(() => {
         console.log("Document successfully deleted!" , expenseId);
@@ -69,7 +69,7 @@ export default function ExpenseTracker() {
         alert("Failed to delete expense. Please try again."); 
       });
   };
-  
+
   // Updating an expense in Firestore
   const updateExpense = async () => {
     if (description && amount && currentExpenseId) {
@@ -79,10 +79,10 @@ export default function ExpenseTracker() {
           description,
           amount: Number(amount),
         });
-  
+
         console.log("Document successfully updated!", currentExpenseId);
         alert("Expense updated successfully!");
-  
+
         setExpenses((prevExpenses) =>
           prevExpenses.map((expense) =>
             expense.id === currentExpenseId ? { ...expense, description, amount: Number(amount) } : expense
@@ -111,7 +111,7 @@ export default function ExpenseTracker() {
           <button className="px-4 py-2 bg-purple-600 text-white rounded">Sign Up</button>
         </div>
       </header>
-      
+
     <div className="max-w-xl mx-auto mt-10 p-5 bg-gray-100 rounded shadow">
       <h1 className="text-2xl font-bold mb-5">Your Expenses</h1>
       <div className="flex space-x-2 mb-5">
@@ -152,7 +152,7 @@ export default function ExpenseTracker() {
         ))}
       </div>
     </div>
-    
+
      {/* Footer Navigation */}
      <footer className="fixed bottom-0 left-0 right-0 bg-gray-200 p-4 flex justify-center space-x-8">
         <button className="text-gray-700">Welcome</button>
